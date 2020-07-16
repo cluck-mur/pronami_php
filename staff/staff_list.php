@@ -5,7 +5,7 @@
     <title>ろくまる農園 スタッフリスト</title>
 </head>
 <body>
-<?php
+    <?php
         // データベースサーバーのエラートラップ
         try {
             // データベースに接続
@@ -27,8 +27,8 @@
             // スタッフ一覧を表示する
             //
             print 'スタッフ一覧<br /><br />';
-            // スタッフを選択できるようにする
-            print '<form method="post" action="staff_edit.php">';
+            // 分岐画面へ移行する
+            print '<form method="post" action="staff_branch.php">';
 
             while (true) {
                 // $stmtから1レコード取り出す
@@ -42,7 +42,8 @@
                 print $rec['name'];
                 print '<br />';
             }
-            print '<input type="submit" value="修正">';
+            print '<input type="submit" name="edit" value="修正">';
+            print '<input type="submit" name="delete" value="削除">';
             print '</form>';
         } catch (Exception $e) {
             print 'ただいま障害により大変ご迷惑をお掛けしております。';
