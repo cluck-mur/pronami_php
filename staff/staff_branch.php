@@ -1,19 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>ろくまる農園 スタッフ修正or削除分岐</title>
-</head>
-<body>
-    <?php
-        // もしeditだったら
-        if (isset($_POST['edit']) == true) {
-            print '修正ボタンが押された';
+<?php
+    // もしdispだったら
+    if (isset($_POST['disp']) == true) {
+        if (isset($_POST['staffcode']) == false) {
+            header('Location:staff_ng.php');
+            exit();
         }
-        // もしdeleteだったら
-        if (isset($_POST['delete']) == true) {
-            print '削除ボタンが押された';
+        // スタッフ参照画面へ
+        $staff_code = $_POST['staffcode'];
+        header('Location:staff_disp.php?staffcode='.$staff_code);
+        exit();
+    }
+    // もしaddだったら
+    if (isset($_POST['add']) == true) {
+        // スタッフ追加画面へ
+        header('Location:staff_add.php');
+        exit();
+    }
+    // もしeditだったら
+    if (isset($_POST['edit']) == true) {
+        if (isset($_POST['staffcode']) == false) {
+            header('Location:staff_ng.php');
+            exit();
         }
-    ?>
-</body>
-</html>
+        // スタッフ修正画面へ
+        $staff_code = $_POST['staffcode'];
+        header('Location:staff_edit.php?staffcode='.$staff_code);
+        exit();
+    }
+    // もしdeleteだったら
+    if (isset($_POST['delete']) == true) {
+        if (isset($_POST['staffcode']) == false) {
+            header('Location:staff_ng.php');
+            exit();
+        }
+        // スタッフ削除画面へ
+        $staff_code = $_POST['staffcode'];
+        header('Location:staff_delete.php?staffcode='.$staff_code);
+        exit();
+    }
+?>
