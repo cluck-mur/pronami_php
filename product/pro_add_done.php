@@ -11,6 +11,7 @@
             // 前画面から受け取ったデータを変数にコピー
             $pro_name = $_POST['name'];
             $pro_price = $_POST['price'];
+            $pro_gazou_name = $_POST['gazou_name'];
 
             /* デバッグ用
             print $pro_name.'<br />';
@@ -30,10 +31,11 @@
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // SQL文を使ってレコードを追加する
-            $sql = 'INSERT INTO mst_product(name,price) VALUES (?,?)';
+            $sql = 'INSERT INTO mst_product(name,price,gazou) VALUES (?,?,?)';
             $stmt = $dbh->prepare($sql);
             $data[] = $pro_name;
             $data[] = $pro_price;
+            $data[] = $pro_gazou_name;
             $stmt->execute($data);
 
             // データベースから切断する
