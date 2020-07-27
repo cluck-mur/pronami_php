@@ -34,7 +34,7 @@
             $dbh = null;
 
             // 画像があったら表示タグを生成しておく
-            if ($pro_gazou_name_old == "") {
+            if ($pro_gazou_name_old == '') {
                 $disp_gazou = '';
             } else {
                 $disp_gazou = '<img src="./gazou/'.$pro_gazou_name_old.'">';
@@ -57,7 +57,7 @@
         print $pro_code;
     ?>
     <br />
-    <form method="post" action="pro_edit_check.php" enctype="multiple/form-data">
+    <form method="post" action="pro_edit_check.php" enctype="multipart/form-data">
         <input type="hidden" name="code" value="<?php print $pro_code; ?>"><br />
         <input type="hidden" name="gazou_name_old" value="<?php print $pro_gazou_name_old; ?>"><br />
         商品名<br />

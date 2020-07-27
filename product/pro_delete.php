@@ -19,7 +19,7 @@
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // SQL文を使ってデータベースからスタッフリストを取得する
-            $sql = 'SELECT name FROM mst_product WHERE code=?';
+            $sql = 'SELECT name, gazou FROM mst_product WHERE code=?';
             $stmt = $dbh->prepare($sql);
             $data[] = $pro_code;
             $stmt->execute($data);
@@ -27,9 +27,17 @@
             // 取得したデータを変数にコピー
             $rec = $stmt->fetch(PDO::FETCH_ASSOC);
             $pro_name = $rec['name'];
+            $pro_gazou_name = $rec['gazou'];
 
             // データベースから切断する
             $dbh = null;
+
+            // 画像があったら表示タグを生成しておく
+            if ($pro_gazou_name == '') {
+                $disp_gazou = '';
+            } else {
+                $disp_gazou = '<img src="./gazou/'.$pro_gazou_name.'">';
+            }
         } catch (Exception $e) {
             print 'ただいま障害により大変ご迷惑をお掛けしております。';
             print $e.'<br />';
@@ -51,10 +59,13 @@
         print $pro_name;
     ?>
     <br />
+    <?php print $disp_gazou; ?>
+    <br />
     この商品を削除してよろしいですか？<br />
     <br />
     <form method="post" action="pro_delete_done.php">
         <input type="hidden" name="code" value="<?php print $pro_code; ?>"><br />
+        <input type="hidden" name="gazou_name" value="<?php print $pro_gazou_name; ?>"><br />
         <input type="button" onclick="history.back()" value="戻る">
         <input type="submit" value="OK">
     </form>

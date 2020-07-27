@@ -10,6 +10,7 @@
         try {
             // 前画面から受け取ったデータを変数にコピー
             $pro_code = $_POST['code'];
+            $pro_gazou_name = $_POST['gazou_name'];
 
             // データベースに接続
             $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
@@ -18,7 +19,7 @@
             $dbh = new PDO($dsn, $user, $password);
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // SQL文を使ってレコードを追加する
+            // SQL文を使ってレコードを削除する
             $sql = 'DELETE FROM mst_product WHERE code=?';
             $stmt = $dbh->prepare($sql);
             $data[] = $pro_code;
@@ -26,6 +27,11 @@
 
             // データベースから切断する
             $dbh = null;
+
+            // もし画像があったら削除する
+            if ($pro_gazou_name != '') {
+                unlink('./gazou/'.$pro_gazou_name);
+            }
 
         } catch (Exception $e) {
             print 'ただいま障害により大変ご迷惑をお掛けしております。';
