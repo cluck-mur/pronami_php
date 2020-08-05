@@ -36,11 +36,17 @@
             if (isset($_SESSION['cart']) == true) {
                 // セッションからカート情報を取り出す
                 $cart = $_SESSION['cart'];
+                // セッションから注文数を取り出す
+                $kazu = $_SESSION['kazu'];
             }
             // カートに商品を追加する
             $cart[] = $pro_code;
+            // 注文数を代入する
+            $kazu[] = 1;
             // セッションにカート情報を保存 どの画面でもカートを見られるように
             $_SESSION['cart'] = $cart;
+            // セッションに注文数を保存
+            $_SESSION['kazu'] = $kazu;
 
             /*
             foreach ($cart as $key => $val) {
