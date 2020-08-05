@@ -27,22 +27,22 @@
 </head>
 <body>
     <?php
+        // 外部参照
+        require_once('../common/common.php');
+        $post = sanitize($_POST);
+
         // データベースサーバーのエラートラップ
         try {
             // 前画面から受け取ったデータを変数にコピー
             $staff_code = $_POST['code'];
-            $staff_name = $_POST['name'];
-            $staff_pass = $_POST['pass'];
+            $staff_name = $post['name'];
+            $staff_pass = $post['pass'];
 
             /* デバッグ用
             print $staff_name.'<br />';
             print $staff_pass.'<br />';
             exit();
             */
-
-            // 入力データに安全対策を施す
-            $staff_name = htmlspecialchars($staff_name, ENT_QUOTES, 'UTF-8');
-            $staff_pass = htmlspecialchars($staff_pass, ENT_QUOTES, 'UTF-8');
 
             // データベースに接続
             $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';

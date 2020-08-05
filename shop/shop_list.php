@@ -6,24 +6,26 @@
     session_start();
     // ページを変える度に合言葉を変える
     session_regenerate_id(true);
-    if (isset($_SESSION['login']) == false) {
+    if (isset($_SESSION['member_login']) == false) {
         /**
          * もしログインの証拠がなかったら
          */
-        print 'ログインされていません。<br />';
-        print '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
-        // ここでプログラムを強制的に終了
-        exit();
+        print 'ようこそゲスト様　';
+        print '<a href="member_login.html">会員ログイン</a><br />';
+        print '<br />';
     } else {
-        // スタッフの名前を表示する
-        print $_SESSION['staff_name'].'さんログイン中<br /><br />';
+        print 'ようこそ';
+        print $_SESSION['member_login'];
+        print '様　';
+        print '<a href="member_login.php">ログアウト</a><br />';
+        print '<br />';
     }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>ろくまる農園 商品リスト</title>
+    <title>ろくまる農園 ショップ商品リスト</title>
 </head>
 <body>
     <?php
@@ -48,8 +50,6 @@
             // 商品一覧を表示する
             //
             print '商品一覧<br /><br />';
-            // 分岐画面へ移行する
-            print '<form method="post" action="pro_branch.php">';
 
             while (true) {
                 // $stmtから1レコード取り出す
@@ -58,17 +58,17 @@
                 if ($rec == false) {
                     break;
                 }
-                // ラジオボタンで商品を選べるようにする
-                print '<input type="radio" name="procode" value="'.$rec['code'].'">';
+                // 商品のリンクを並べる
+                print '<a href="shop_product.php?procode='.$rec['code'].'">';
                 print $rec['name'].'---';
                 print $rec['price'].'円';
+                print '</a>';
                 print '<br />';
+
             }
-            print '<input type="submit" name="disp" value="参照">';
-            print '<input type="submit" name="add" value="追加">';
-            print '<input type="submit" name="edit" value="修正">';
-            print '<input type="submit" name="delete" value="削除">';
-            print '</form>';
+            // カートを見るへのリンク
+            print '<br />';
+            print '<a href="shop_cartlook.php">カートを見る</a><br />';
         } catch (Exception $e) {
             print 'ただいま障害により大変ご迷惑をお掛けしております。';
             print $e.'<br />';
@@ -77,8 +77,6 @@
         }
 
     ?>
-    <br />
-    <a href="../staff_login/staff_top.php">トップメニューへ</a>
 
 </body>
 </html>
