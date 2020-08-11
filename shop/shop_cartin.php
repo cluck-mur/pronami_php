@@ -38,7 +38,15 @@
                 $cart = $_SESSION['cart'];
                 // セッションから注文数を取り出す
                 $kazu = $_SESSION['kazu'];
+
+                // 同じ商品はカートに追加しない
+                if (in_array($pro_code, $cart) == true) {
+                    print 'その商品はすでにカートに入っています。<br />';
+                    print '<a href="shop_list.php">商品一覧に戻る</a>';
+                    exit();
+                }
             }
+
             // カートに商品を追加する
             $cart[] = $pro_code;
             // 注文数を代入する
