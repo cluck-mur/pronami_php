@@ -65,6 +65,31 @@
                 $honbun .= $suryo."個 = ";
                 $honbun .= $shokei."円\n";
             }
+
+            /*
+             * 注文データをDBの注文テーブルと注文詳細テーブルに追加する
+             */
+            $sql = 'INSERT INTO data_sales (code_member, name, email, postal1, postal2, address, tel) VALUES (?,?,?,?,?,?,?)';
+            $stmt = $dbh->prepare($sql);
+            $data = array();    // 配列クリア
+            $data[] = 0;    // 会員コード
+            $data[] = $onamae;
+            $data[] = $email;
+            $data[] = $postal1;
+            $data[] = $postal2;
+            $data[] = $address;
+            $data[] = $tel;
+            $stmt->execute($data);
+
+            /*
+             * 注文コードを取り出す
+             */
+            $sql = 'SELECT LAST_INSERT_ID()';
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute($data);
+            $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+            $lastcode = $rec['LAST_INSERT_ID()'];
+
             // DB切断
             $dbh = null;
 
