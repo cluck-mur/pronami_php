@@ -18,9 +18,13 @@
         $address = $post['address'];
         $tel = $post['tel'];
 
+        // チェックフラグ
+        $okflg = true;
+
         if ($onamae == '') {
             // 名前が入力されていない場合
             print 'お名前が入力されていません。<br /><br />';
+            $okflg = false;
         } else {
             print 'お名前<br />';
             print $onamae;
@@ -29,6 +33,7 @@
         if (preg_match('/\A[\w\-\.]+\@[\w\-\.]+\.([a-z]+)\z/', $email) == 0) {
             // メールアドレスが入力されていない場合
             print 'メールアドレスを正確に入力してください。<br /><br />';
+            $okflg = false;
         } else {
             print 'メールアドレス<br />';
             print $email;
@@ -37,10 +42,12 @@
         if (preg_match('/\A[0-9]+\z/', $postal1) == 0) {
             // 郵便番号に半角数字以外が入力されている場合
             print '郵便番号は半角数字で入力してください。<br /><br />';
+            $okflg = false;
         }
         if (preg_match('/\A[0-9]+\z/', $postal2) == 0) {
             // 郵便番号に半角数字以外が入力されている場合
             print '郵便番号は半角数字で入力してください。<br /><br />';
+            $okflg = false;
         } else {
             print '郵便番号<br />';
             print $postal1;
@@ -50,6 +57,7 @@
         }
         if ($address == '') {
             print '住所が入力されていません。<br /><br />';
+            $okflg = false;
         } else {
             print '住所<br />';
             print $address;
@@ -57,22 +65,29 @@
         }
         if (preg_match('/\A\d{2,5}-?\d{2,5}-?\d{4,5}\z/', $tel) == 0) {
             print '電話番号を正確に入力してください。<br /><br />';
+            $okflg = false;
         } else {
             print '電話番号<br />';
             print $tel;
             print '<br /><br />';
         }
 
-        print '<form method="post" action="shop_form_done.php">';
-        print '<input type="hidden" name="onamae" value="'.$onamae.'">';
-        print '<input type="hidden" name="email" value="'.$email.'">';
-        print '<input type="hidden" name="postal1" value="'.$postal1.'">';
-        print '<input type="hidden" name="postal2" value="'.$postal2.'">';
-        print '<input type="hidden" name="address" value="'.$address.'">';
-        print '<input type="hidden" name="tel" value="'.$tel.'">';
-        print '<input type="button" onclick="history.back()" value="戻る">';
-        print '<input type="submit" value="OK"><br />';
-        print '</form>';
+        if ($okflg == true) {
+            print '<form method="post" action="shop_form_done.php">';
+            print '<input type="hidden" name="onamae" value="'.$onamae.'">';
+            print '<input type="hidden" name="email" value="'.$email.'">';
+            print '<input type="hidden" name="postal1" value="'.$postal1.'">';
+            print '<input type="hidden" name="postal2" value="'.$postal2.'">';
+            print '<input type="hidden" name="address" value="'.$address.'">';
+            print '<input type="hidden" name="tel" value="'.$tel.'">';
+            print '<input type="button" onclick="history.back()" value="戻る">';
+            print '<input type="submit" value="OK"><br />';
+            print '</form>';
+        } else {
+            print '<form>';
+            print '<input type="button" onclick="history.back()" value="戻る">';
+            print '</form>';
+        }
     ?>
 </body>
 </html>
