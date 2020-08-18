@@ -57,6 +57,7 @@
 
                 $name = $rec['name'];
                 $price = $rec['price'];
+                $kakaku[] = $price;
                 $suryo = $kazu[$i];
                 $shokei = $price * $suryo;
 
@@ -67,9 +68,16 @@
             }
 
             /*
+             * DBをロックする
+             */
+            $sql = 'LOCK TABLES dat_sales WRITE, dat_sales_product WRITE';
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute();
+
+            /*
              * 注文データをDBの注文テーブルと注文詳細テーブルに追加する
              */
-            $sql = 'INSERT INTO data_sales (code_member, name, email, postal1, postal2, address, tel) VALUES (?,?,?,?,?,?,?)';
+            $sql = 'INSERT INTO dat_sales (code_member, name, email, postal1, postal2, address, tel) VALUES (?,?,?,?,?,?,?)';
             $stmt = $dbh->prepare($sql);
             $data = array();    // 配列クリア
             $data[] = 0;    // 会員コード
@@ -82,13 +90,34 @@
             $stmt->execute($data);
 
             /*
-             * 注文コードを取り出す
+             * DBが割り振った注文コードをDBから取り出す
              */
             $sql = 'SELECT LAST_INSERT_ID()';
             $stmt = $dbh->prepare($sql);
             $stmt->execute($data);
             $rec = $stmt->fetch(PDO::FETCH_ASSOC);
             $lastcode = $rec['LAST_INSERT_ID()'];
+
+            /*
+             * 商品明細をDBに追加する
+             */
+            for ($i = 0; $i < $max; $i++) {
+                $sql = 'INSERT INTO dat_sales_product (code_sales, code_product, price, quantity) VALUES (?, ?, ?, ?)';
+                $stmt = $dbh->prepare($sql);
+                $data = array();
+                $data[] = $lastcode;
+                $data[] = $cart[$i];
+                $data[] = $kakaku[$i];
+                $data[] = $kazu[$i];
+                $stmt->execute($data);
+            }
+
+            /*
+             * DBロックを解除する
+             */
+            $sql = 'UNLOCK TABLES';
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute();
 
             // DB切断
             $dbh = null;
@@ -140,6 +169,8 @@
             print $postal1.'-'.$postal2.'<br />';
             print $address.'<br />';
             print $tel.'<br />';
+            print '<br />';
+            print '<a href="shop_list.php">商品画面へ</a>';
         } catch (Exception $e) {
             print 'ただいま障害により大変ご迷惑をお掛けしております。';
             print $e.'<br />';
