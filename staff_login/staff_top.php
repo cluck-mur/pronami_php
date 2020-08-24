@@ -32,6 +32,8 @@
     <br />
     <a href="../product/pro_list.php">商品管理</a>
     <br />
+    <a href="../order/order_download.php">注文ダウンロード</a>
+    <br />
     <a href="../staff_login/staff_logout.php">ログアウト</a>
 </body>
 </html>
