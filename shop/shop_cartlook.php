@@ -15,7 +15,7 @@
         print '<br />';
     } else {
         print 'ようこそ';
-        print $_SESSION['member_login'];
+        print $_SESSION['member_name'];
         print '様　';
         print '<a href="member_login.php">ログアウト</a><br />';
         print '<br />';
@@ -85,6 +85,11 @@
     <form method="post" action="kazu_change.php">
     <br />
     <a href="shop_form.html">ご購入手続きへ進む</a><br />
+    <?php
+        if (isset($_SESSION["member_login"]) == true) {
+            print '<a href="shop_kantan_check.php">会員かんたん注文へ進む</a><br />';
+        }
+    ?>
     <table border="1">
     <tr>
     <td>商品</td>

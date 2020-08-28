@@ -15,7 +15,7 @@
         print '<br />';
     } else {
         print 'ようこそ';
-        print $_SESSION['member_login'];
+        print $_SESSION['member_name'];
         print '様　';
         print '<a href="member_login.php">ログアウト</a><br />';
         print '<br />';
