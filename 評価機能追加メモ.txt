@@ -1,0 +1,28 @@
+評価入力
+　　概要
+　　・会員だけが入れられる
+　　・5段階
+
+　　画面遷移
+　　・商品詳細画面で評価を入れる
+　　・評価チェック画面でチェック
+　　・登録完了画面で登録完了／商品一覧画面に戻るボタンで商品一覧画面に戻る
+
+
+評価参照
+　　概要
+　　・誰でも見ることができる
+　　・商品一覧画面に平均評価を表示
+　　・商品詳細画面に平均評価を表示
+
+
+データベース
+　　DB名 : dat_rating
+　　カラム
+　　　code : int primary auto-incriment
+　　　code_product : int
+　　　code_member : int
+　　　date : timestamp
+　　　rating : int
+　　　comment : varchar(256)
+　　　
