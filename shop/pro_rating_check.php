@@ -45,6 +45,7 @@
         $pro_price = $post['proprice'];
         $pro_gazou_name = $post['progazouname'];
         $pro_rating = $post['prorating'];
+        $pro_comment = $post['procomment'];
 
         // もし画像ファイルがあったら表示のタグを準備する
         if ($pro_gazou_name == "") {
@@ -137,9 +138,12 @@
         print 'この評価で登録します。よろしいですか？<br /><br />';
 
         print 'あなたの評価<br />';
+        print '5段階のうち<br />';
         print $pro_rating;
-        print '<br /><br />';
         print '<br />';
+        print 'コメント<br />';
+        print $pro_comment;
+        print '<br /><br />';
 
         print '商品情報<br />';
         print '商品コード<br />';
@@ -161,6 +165,7 @@
             print '<input type="hidden" name="proprice" value="'.$pro_price.'">';
             print '<input type="hidden" name="progazouname" value="'.$pro_gazou_name.'">';
             print '<input type="hidden" name="prorating" value="'.$pro_rating.'">';
+            print '<input type="hidden" name="procomment" value="'.$pro_comment.'">';
 
             print '<input type="button" onclick="history.back()" value="戻る">';
             print '<input type="submit" value="OK"><br />';

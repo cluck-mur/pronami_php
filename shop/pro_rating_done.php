@@ -46,7 +46,7 @@
             $pro_price = $post['proprice'];
             $pro_gazou_name = $post['progazouname'];
             $pro_rating = $post['prorating'];
-            $pro_comment = '';
+            $pro_comment = $post['procomment'];
     
             // データベースに接続
             $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';

@@ -58,7 +58,7 @@
             /**
             * SQL文を使ってデータベースから商品評価情報を取得する
             */
-            $sql = 'SELECT AVG(rating) AS pro_rating_avg FROM dat_rating WHERE code_product=?';
+            $sql = 'SELECT AVG(rating) AS pro_rating_avg, COUNT(rating) AS pro_rating_count FROM dat_rating WHERE code_product=?';
             $stmt = $dbh->prepare($sql);
             $data = array();
             $data[] = $pro_code;
@@ -67,6 +67,57 @@
             // 取得したデータを変数にコピー
             $rec = $stmt->fetch(PDO::FETCH_ASSOC);
             $pro_rating_avg = $rec['pro_rating_avg'];
+            $pro_rating_count = $rec['pro_rating_count'];
+
+            /**
+            * SQL文を使ってデータベースから商品評価コメントを取得する
+            */
+            $sql = 'SELECT code_member, date, rating, comment FROM dat_rating WHERE code_product=? AND length(comment)>0 ORDER BY date DESC LIMIT 5';
+            $stmt = $dbh->prepare($sql);
+            $data = array();
+            $data[] = $pro_code;
+            $stmt->execute($data);
+
+            // 取得したデータを変数にコピー
+            $member_codes = array();
+            $pro_rating_dates = array();
+            $pro_ratings = array();
+            $pro_rating_comments = array();
+
+            $comment_count = 0;
+            while (true) {
+                // $stmtから1レコード取り出す
+                $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($rec == false) {
+                    break;
+                }
+
+                $comment_count++;
+                $member_codes[] = $rec['code_member'];
+                $pro_rating_dates[] = $rec['date'];
+                $pro_ratings[] = $rec['rating'];
+                $pro_rating_comments[] = $rec['comment'];
+
+            }
+
+            /**
+             * DBから会員名を取得
+             */
+            $member_names = array();
+            for ($i = 0; $i < $comment_count; $i++) {
+                $sql = 'SELECT name FROM dat_member WHERE code=?';
+                $stmt = $dbh->prepare($sql);
+                $data = array();
+                $data[] = $member_codes[$i];
+                $stmt->execute($data);
+    
+                // $stmtから1レコード取り出す
+                $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $member_names[] = $rec['name'];
+
+            }
 
             // データベースから切断する
             $dbh = null;
@@ -108,7 +159,10 @@
     <?php print $disp_gazou; ?>
     <br />
     評価<br />
-    <?php print $pro_rating_avg; ?>
+    <?php
+    print $pro_rating_avg;
+    print '('.$pro_rating_count.')';
+    ?>
     <form method="post" action="pro_rating_form.php">
         <input type="hidden" name="procode" value="<?php print $pro_code; ?>">
         <input type="hidden" name="proname" value="<?php print $pro_name; ?>">
@@ -116,6 +170,27 @@
         <input type="hidden" name="progazouname" value="<?php print $pro_gazou_name; ?>">
         <input type="submit" value="この商品を評価する"><br />
     </form>
+    <br />
+    購入者のコメント<br />
+    <?php
+    for($i = 0; $i < $comment_count; $i++) {
+        $member_code = $member_codes[$i];
+        $pro_rating_date = $pro_rating_dates[$i];
+        $pro_rating = $pro_ratings[$i];
+        $pro_rating_comment = $pro_rating_comments[$i];
+        $member_name = $member_names[$i];
+
+        print 'お名前<br />';
+        print $member_name.'<br />';
+        print '評価日付<br />';
+        print $pro_rating_date.'<br />';
+        print '評価<br />';
+        print $pro_rating.'<br />';
+        print 'コメント<br />';
+        print $pro_rating_comment.'<br />';
+        print '<br />';
+    }
+    ?>
     <br />
     <form>
         <input type="button" onclick="history.back()" value="戻る">

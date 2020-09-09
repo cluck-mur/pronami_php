@@ -51,23 +51,6 @@
 
     商品評価<br />
     <br />
-    評価を入力してください<br />
-    <form method="post" action="pro_rating_check.php">
-        <input type="hidden" name="procode" value="<?php print $pro_code; ?>">
-        <input type="hidden" name="proname" value="<?php print $pro_name; ?>">
-        <input type="hidden" name="proprice" value="<?php print $pro_price; ?>">
-        <input type="hidden" name="progazouname" value="<?php print $pro_gazou_name; ?>">
-        <select name="prorating">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <input type="submit" value="OK">
-    </form>
-    <br />
-    <br />
     商品コード<br />
     <?php
         print $pro_code;
@@ -86,10 +69,30 @@
     <br />
     <?php print $disp_gazou; ?>
     <br />
+    評価を入力してください<br />
+    <form method="post" action="pro_rating_check.php">
+        <input type="hidden" name="procode" value="<?php print $pro_code; ?>">
+        <input type="hidden" name="proname" value="<?php print $pro_name; ?>">
+        <input type="hidden" name="proprice" value="<?php print $pro_price; ?>">
+        <input type="hidden" name="progazouname" value="<?php print $pro_gazou_name; ?>">
+        <select name="prorating">
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
+        </select>
+        <br />
+        <textarea name="procomment" rows="9" cols="60"" maxlength="256" style="margin:2pt 0pt"></textarea> 
+        <br />
+        <input type="button" onclick="history.back()" value="戻る">
+        <input type="submit" value="OK">
+    </form>
+    <!--
     <br />
     <form>
         <input type="button" onclick="history.back()" value="戻る">
     </form>
-    
+    -->
 </body>
 </html>

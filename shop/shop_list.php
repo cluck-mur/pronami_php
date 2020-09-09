@@ -43,9 +43,6 @@
             $stmt = $dbh->prepare($sql);
             $stmt->execute();
 
-            // データベースから切断する
-            $dbh = null;
-
             //
             // 商品一覧を表示する
             //
@@ -69,13 +66,44 @@
             // カートを見るへのリンク
             print '<br />';
             print '<a href="shop_cartlook.php">カートを見る</a><br />';
+
+            /**
+             * 売上TOP10を表示する
+             */
+            print '<br />売上げ ＴＯＰ１０<br /><br />';
+
+            $sql = 'SELECT *, SUM(quantity) AS total_quantity FROM dat_sales_product INNER JOIN mst_product ON dat_sales_product.code_product=mst_product.code GROUP BY code_product ORDER BY total_quantity DESC LIMIT 10';
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute();
+            $i = 1;
+            while (true) {
+                // $stmtから1レコード取り出す
+                $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($rec == false) {
+                    break;
+                }
+
+                // 商品のリンクを並べる
+                print '- '.$i.'位 -<br />';
+                print '<a href="shop_product.php?procode='.$rec['code_product'].'">'.$rec['name'].'</a>';
+                print '('.$rec['total_quantity'].')<br />';
+                //print '<br />';
+
+                $i++;
+            }
+
+
         } catch (Exception $e) {
             print 'ただいま障害により大変ご迷惑をお掛けしております。';
             print $e.'<br />';
             // 強制終了
             exit();
+        } finally {
+            //print '<br />in finaly<br />';
+            // データベースから切断する
+            $dbh = null;
         }
-
     ?>
 
 </body>
