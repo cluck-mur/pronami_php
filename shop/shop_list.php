@@ -70,11 +70,14 @@
             /**
              * 売上TOP10を表示する
              */
-            print '<br />売上げ ＴＯＰ１０<br /><br />';
+            print '<br />過去１か月の販売数ＴＯＰ１０<br /><br />';
 
-            $sql = 'SELECT *, SUM(quantity) AS total_quantity FROM dat_sales_product INNER JOIN mst_product ON dat_sales_product.code_product=mst_product.code GROUP BY code_product ORDER BY total_quantity DESC LIMIT 10';
+            //$start_date = date("Y-m-d H:i:s", strtotime("-30 day"));
+            $start_date = date("Y-m-d 00:00:00", strtotime("-1 month"));
+            $sql = 'SELECT code_product, mst_product.name, SUM(quantity) AS total_quantity FROM dat_sales_product INNER JOIN mst_product ON dat_sales_product.code_product=mst_product.code INNER JOIN dat_sales ON dat_sales_product.code_sales=dat_sales.code WHERE date>? GROUP BY code_product ORDER BY total_quantity DESC LIMIT 10';
             $stmt = $dbh->prepare($sql);
-            $stmt->execute();
+            $data[] = $start_date;
+            $stmt->execute($data);
             $i = 1;
             while (true) {
                 // $stmtから1レコード取り出す
@@ -92,8 +95,6 @@
 
                 $i++;
             }
-
-
         } catch (Exception $e) {
             print 'ただいま障害により大変ご迷惑をお掛けしております。';
             print $e.'<br />';

@@ -77,4 +77,66 @@
         print '<option value="31">31</option>';
         print '</select>';
     }
+
+    /**
+     * 評価星のタグを返す
+     */
+    function get_rating_star_imgtag($rating) {
+        $stars = round($rating / 0.5);
+        $disp_flg = false;
+        $star_number = '';
+        switch ($stars) {
+            case 0:
+                $star_number = '00';
+                $disp_flg = true;
+                break;
+            case 1:
+                $star_number = '05';
+                $disp_flg = true;
+                break;
+            case 2:
+                $star_number = '10';
+                $disp_flg = true;
+                break;
+            case 3:
+                $star_number = '15';
+                $disp_flg = true;
+                break;
+            case 4:
+                $star_number = '20';
+                $disp_flg = true;
+                break;
+            case 5:
+                $star_number = '25';
+                $disp_flg = true;
+                break;
+            case 6:
+                $star_number = '30';
+                $disp_flg = true;
+                break;
+            case 7:
+                $star_number = '35';
+                $disp_flg = true;
+                break;
+            case 8:
+                $star_number = '40';
+                $disp_flg = true;
+                break;
+            case 9:
+                $star_number = '45';
+                $disp_flg = true;
+                break;
+            case 10:
+                $star_number = '50';
+                $disp_flg = true;
+                break;
+            default:
+                break;
+        }
+        if ($disp_flg == true) {
+            //print '<br />'.$stars.'('.$star_number.')<br />';
+            print '<img src="./images/star'.$star_number.'.png" width="129" height="30">';
+        }
+
+    }
 ?>

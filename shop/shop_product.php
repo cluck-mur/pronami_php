@@ -160,7 +160,11 @@
     <br />
     評価<br />
     <?php
-    print $pro_rating_avg;
+    $pro_rating_avg_rounded = round($pro_rating_avg, 1);
+    require_once('../common/common.php');
+    get_rating_star_imgtag($pro_rating_avg_rounded);
+    print '<br />';
+    print $pro_rating_avg_rounded;
     print '('.$pro_rating_count.')';
     ?>
     <form method="post" action="pro_rating_form.php">
