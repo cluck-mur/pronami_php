@@ -164,8 +164,10 @@
     評価<br />
     <?php
     $pro_rating_avg_rounded = round($pro_rating_avg, 1);
-    require_once('../common/common.php');
-    get_rating_star_imgtag($pro_rating_avg_rounded);
+    print '<div class="star-box">';
+    print '<span class="empt_stars">5</span>';
+    print '<span class="stars">'.$pro_rating_avg.'</span>';
+    print '</div>';
     print '<br />';
     print $pro_rating_avg_rounded;
     print '('.$pro_rating_count.')';
@@ -202,21 +204,7 @@
     <form>
         <input type="button" onclick="history.back()" value="戻る">
     </form>
-    <div id="hello"></div>
-    <script type="text/javascript">
-        hello_jq();
-    </script>
 
-    <div class="star-box">
-        <span class="empt_stars">5</span>
-        <span class="stars">2.5</span>
-    </div>
-    <!--
-    <span class="stars">4.8618164</span>
-    <span class="stars">2.6545344</span>
-    <span class="stars">0.5355</span>
-    <span class="stars">8</span>
-    -->
     <script type="text/javascript">
         $(function() {
             $('span.empt_stars').stars();
