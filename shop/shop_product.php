@@ -25,6 +25,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="shop_product.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/star.js"></script>
     <title>ろくまる農園 商品詳細情報</title>
 </head>
 <body>
@@ -199,6 +202,28 @@
     <form>
         <input type="button" onclick="history.back()" value="戻る">
     </form>
-    
+    <div id="hello"></div>
+    <script type="text/javascript">
+        hello_jq();
+    </script>
+
+    <div class="star-box">
+        <span class="empt_stars">5</span>
+        <span class="stars">2.5</span>
+    </div>
+    <!--
+    <span class="stars">4.8618164</span>
+    <span class="stars">2.6545344</span>
+    <span class="stars">0.5355</span>
+    <span class="stars">8</span>
+    -->
+    <script type="text/javascript">
+        $(function() {
+            $('span.empt_stars').stars();
+        });
+        $(function() {
+            $('span.stars').stars();
+        });
+    </script>
 </body>
 </html>
